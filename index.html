@@ -9,7 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Liftbook">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="theme-color" content="#060607">
+<meta name="theme-color" content="#140705">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
@@ -18,15 +18,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&display=swap">
 <style>
 /* Layout: one-column phone app. Sticky title bar per tab, fixed bottom tab bar, bottom sheets for editing. */
-/* Dark only: near-black ground, lime accent, one hue per muscle group for the month grids. */
+/* Dark only: ember-black ground lit by orange gradient glows, frosted glass surfaces, orange gradient accent.
+   Each muscle group keeps its own hue for the month grids. */
 :root{
-  --bg:#060607; --surface:#111114; --surface-2:#1b1b20; --fg:#f3f3f5; --muted:#8b8b95; --line:#26262d;
-  --accent:#c6f432; --accent-soft:#28330c; --on-accent:#0c1002;
-  --good:#c6f432; --good-soft:#232d0b; --on-good:#0c1002;
+  --bg:#0c0604; --surface:#1d0e08; --surface-2:rgba(255,255,255,.08); --fg:#fff6f1; --muted:#b59b8f; --line:rgba(255,255,255,.12);
+  --accent:#ff7a2f; --accent-soft:rgba(255,122,47,.18); --on-accent:#1f0800;
+  --grad:linear-gradient(135deg,#ffb24f 0%,#ff6a2a 52%,#e2340f 100%);
+  --glass:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.035));
+  --glass-line:rgba(255,255,255,.14); --glass-hi:inset 0 1px 0 rgba(255,255,255,.2);
+  --good:#62e3a4; --good-soft:rgba(98,227,164,.15); --on-good:#04170d;
   --warn:#ffc24a; --warn-soft:#33270b;
   --bad:#ff6b81; --bad-soft:#3a1219; --on-bad:#1c0509;
   --scrim:rgba(0,0,0,.7); --shadow:none;
-  --m-base:#2e2e35; --m-sil:#18181c; --m-gap:#060607;
+  --m-base:#3d2b24; --m-sil:#22150f; --m-gap:#0c0604;
   --c-chest:#ff4f86; --c-back:#3ab5d6; --c-shoulders:#ff8a3d; --c-arms:#9c9cf5; --c-legs:#ffcf3a; --c-core:#5ee36a;
   --display:"Unbounded","Arial Black",system-ui,sans-serif;
   --body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,system-ui,sans-serif;
@@ -297,6 +301,81 @@ body.has-rest #toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) +
 .mfoot.zero{font-size:13px;font-weight:600;color:color-mix(in srgb,var(--h) 55%,#9a9aa2)}
 .legend-sq{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
 .legend-sq i{width:11px;height:11px;border-radius:3px;background:color-mix(in srgb,var(--accent) var(--p),#1b1b1e)}
+/* ---------- Glass theme ---------- */
+body{background:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(120% 65% at 100% 0%,rgba(255,150,60,.75),transparent 64%),
+  radial-gradient(100% 60% at 0% 100%,rgba(232,60,15,.65),transparent 68%),
+  radial-gradient(70% 45% at 10% 40%,rgba(255,120,40,.28),transparent 72%),
+  linear-gradient(165deg,#2b1208,#0c0604 52%,#170805)}
+.top{margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:linear-gradient(to bottom,rgba(16,7,4,.82),rgba(16,7,4,.5));-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+.card{background:var(--glass);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);box-shadow:var(--glass-hi),0 12px 32px rgba(0,0,0,.28)}
+.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.btn-primary{background:var(--grad);color:var(--on-accent);border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px rgba(255,90,30,.35)}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--glass-line)}
+.btn-danger{background:var(--bad);color:var(--on-bad);border-color:transparent}
+.btn-danger-quiet,.add-set{background:transparent;border-color:transparent}
+.add-set{color:var(--accent)}
+.num,.field input,.field select,.field textarea,.search,.select{background-color:rgba(0,0,0,.28);border-color:rgba(255,255,255,.1)}
+.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tick{border-color:rgba(255,255,255,.16)}
+.is-done .tick{background:var(--grad);border-color:transparent;color:var(--on-accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 14px rgba(255,90,30,.35)}
+.is-done .num{background:rgba(255,122,47,.16);border-color:rgba(255,122,47,.25)}
+.ex-fig{background:rgba(0,0,0,.28)}
+.machine,.set-no,.stat,.panel{background:rgba(255,255,255,.07)}
+.seg{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08)}
+.seg button[aria-pressed="true"]{background:var(--grad);color:var(--on-accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
+.mchip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.mchip[aria-pressed="true"] .dot{background:var(--grad);border-color:transparent}
+#tabs{background:rgba(22,9,5,.6);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);border-top:1px solid var(--glass-line)}
+#tabs.live [data-tab="workout"]::after{background:var(--accent);box-shadow:0 0 0 2px #1a0a05,0 0 10px var(--accent)}
+#sheet{background:linear-gradient(180deg,rgba(52,22,11,.94),rgba(17,8,5,.97));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);border-top:1px solid rgba(255,255,255,.18);box-shadow:0 -12px 40px rgba(0,0,0,.4)}
+.sheet-head{background:rgba(46,20,10,.92)}
+.sheet-foot{background:rgba(17,8,5,.95)}
+#rest{background:rgba(28,11,6,.78);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--glass-line)}
+#rest .rest-bar{background:var(--grad);opacity:.35}
+#rest.over{background:var(--grad);color:var(--on-accent)}
+#toast{background:var(--grad);color:var(--on-accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 24px rgba(0,0,0,.35)}
+.c-dot{fill:#1d0e08}
+.c-tip{background:var(--grad)}
+.month-nav .icon-btn{background:rgba(255,255,255,.08);border:1px solid var(--glass-line)}
+
+/* Month grids: same hue per group, now as tinted glass with a soft gradient. */
+.mcard{background:
+    linear-gradient(150deg,color-mix(in srgb,var(--h) 38%,transparent) 0%,color-mix(in srgb,var(--h) 10%,transparent) 55%,color-mix(in srgb,var(--h) 22%,transparent) 100%),
+    linear-gradient(rgba(10,7,7,.62),rgba(10,7,7,.62));
+  border:1px solid color-mix(in srgb,var(--h) 42%,rgba(255,255,255,.12));
+  -webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 30px color-mix(in srgb,var(--h) 16%,transparent)}
+.mgrid>*{background:color-mix(in srgb,var(--h) 12%,rgba(255,255,255,.05))}
+.mgrid>.l1{background:linear-gradient(155deg,color-mix(in srgb,var(--h) 55%,transparent),color-mix(in srgb,var(--h) 32%,transparent))}
+.mgrid>.l2{background:linear-gradient(155deg,color-mix(in srgb,var(--h) 85%,#fff 15%),color-mix(in srgb,var(--h) 62%,transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.mgrid>.l3{background:linear-gradient(155deg,color-mix(in srgb,var(--h) 72%,#fff),var(--h) 55%,color-mix(in srgb,var(--h) 82%,#000));box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.mgrid>.l4{background:linear-gradient(155deg,#fff,color-mix(in srgb,var(--h) 50%,#fff) 60%,color-mix(in srgb,var(--h) 80%,#fff));box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 8px color-mix(in srgb,var(--h) 60%,transparent)}
+.mgrid>.today{box-shadow:inset 0 0 0 1.5px var(--h)}
+.mfoot{background:linear-gradient(160deg,color-mix(in srgb,var(--h) 36%,transparent),color-mix(in srgb,var(--h) 16%,transparent));border:1px solid color-mix(in srgb,var(--h) 32%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+
+/* Routine targets and finish options */
+.tgt{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.last .chip{margin-right:4px}
+.rt-item{display:block;padding:10px 0}
+.rt-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rt-plan{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stepper,.rt-w{display:inline-flex;align-items:center;height:38px;border-radius:999px;background:rgba(0,0,0,.28);border:1px solid var(--line)}
+.stepper button{width:34px;height:36px;border:0;background:none;color:var(--accent);font-size:20px;font-weight:600}
+.stepper b{min-width:20px;text-align:center;font-variant-numeric:tabular-nums}
+.stepper small,.rt-w small{margin-right:12px;margin-left:2px;color:var(--muted);font-size:12px}
+.rt-w input{width:52px;height:36px;border:0;background:none;color:var(--fg);text-align:right;font:600 16px var(--body);outline:none}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;margin:6px 0 10px;padding:14px;border-radius:18px;border:1px solid var(--glass-line);background:var(--glass);text-align:left}
+.toggle-row[aria-pressed="true"]{border-color:rgba(255,122,47,.55);background:linear-gradient(145deg,rgba(255,122,47,.2),rgba(255,122,47,.05))}
+.toggle-row small{display:block;margin-top:2px;color:var(--muted);font-size:13px}
+.changes{display:flex;flex-direction:column;gap:2px;margin-top:6px;font-size:13px}
+.changes span::before{content:"• ";color:var(--accent)}
+.switch{position:relative;flex:none;width:50px;height:30px;border-radius:999px;background:rgba(255,255,255,.14);transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .2s}
+[aria-pressed="true"] .switch{background:var(--grad)}
+[aria-pressed="true"] .switch::after{transform:translateX(20px)}
+
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -446,7 +525,7 @@ function defaults(){
     ex('Hanging Leg Raise','Core',"Captain's chair"),
   ];
   const by=n=>L.find(e=>e.name===n).id;
-  const rt=(name,names)=>({id:uid(),name,ex:names.map(by)});
+  const rt=(name,names)=>({id:uid(),name,ex:names.map(by),plan:{}});
   return {v:1,settings:{unit:'kg',rest:90},exercises:L,
     routines:[
       rt('Push',['Bench Press','Incline Dumbbell Press','Shoulder Press Machine','Lateral Raise','Triceps Pushdown']),
@@ -457,6 +536,7 @@ function defaults(){
 }
 function migrate(d){
   for(const e of d.exercises) if(!e.muscles) e.muscles=defaultMuscles(e.name,e.muscle);
+  for(const r of d.routines||[]) if(!r.plan) r.plan={};
   return d;
 }
 function load(){
@@ -501,10 +581,34 @@ function lastEntry(exId,before){
   for(const s of done()){ if(s.start>=before) continue; const en=s.entries.find(e=>e.exId===exId&&working(e).length); if(en) return {s,en}; }
   return null;
 }
-function newEntry(exId){
+// Routine target for one exercise: sets, reps and an optional starting weight (kg).
+const planOf=(r,id)=>({sets:3,reps:10,w:null,...(r?.plan?.[id]||{})});
+function newEntry(exId,target=null){
   const ex=exById(exId), last=lastEntry(exId,Date.now());
-  const n=last?working(last.en).length:3;
-  return {id:uid(),exId,name:ex?.name||'',machine:last?.en.machine||ex?.machine||'',sets:Array.from({length:n},()=>({w:null,r:null,wu:false,done:false}))};
+  const n=target?target.sets:last?working(last.en).length:3;
+  return {id:uid(),exId,name:ex?.name||'',machine:last?.en.machine||ex?.machine||'',target,sets:Array.from({length:n},()=>({w:null,r:null,wu:false,done:false}))};
+}
+// What a finished workout would change in its routine: order, exercises, set and rep targets.
+function routinePlanFrom(s,keep){
+  const ex=[], plan={};
+  for(const en of s.entries){
+    const ws=en.sets.filter(x=>keep(x)&&!x.wu&&x.r>0);
+    if(!ws.length||ex.includes(en.exId)) continue;
+    ex.push(en.exId); plan[en.exId]={sets:ws.length,reps:ws[0].r};
+  }
+  return {ex,plan};
+}
+function routineDiff(r,next){
+  const out=[], name=id=>exById(id)?.name||'Exercise';
+  next.ex.filter(id=>!r.ex.includes(id)).forEach(id=>out.push(`Add ${name(id)}`));
+  r.ex.filter(id=>!next.ex.includes(id)&&exById(id)&&!exById(id).archived).forEach(id=>out.push(`Remove ${name(id)}`));
+  const common=next.ex.filter(id=>r.ex.includes(id));
+  if(common.join()!==r.ex.filter(id=>common.includes(id)).join()) out.push('New exercise order');
+  for(const id of common){
+    const a=planOf(r,id), b=next.plan[id];
+    if(a.sets!==b.sets||a.reps!==b.reps) out.push(`${name(id)}: ${a.sets}×${a.reps} → ${b.sets}×${b.reps}`);
+  }
+  return out;
 }
 
 /* ---------- progress math ---------- */
@@ -571,7 +675,7 @@ function vStart(){
 function routineCard(r){
   const exs=r.ex.map(exById).filter(e=>e&&!e.archived);
   const lastS=done().find(s=>s.routineId===r.id);
-  return `<article class="card routine"><div><h3>${esc(r.name)}</h3><p class="meta">${exs.length} exercise${exs.length===1?'':'s'}${lastS?` · last done ${ago(lastS.start)}`:' · not done yet'}</p><span class="ex-names">${exs.map(e=>esc(e.name)).join(' · ')}</span></div>
+  return `<article class="card routine"><div><h3>${esc(r.name)}</h3><p class="meta">${exs.length} exercise${exs.length===1?'':'s'}${lastS?` · last done ${ago(lastS.start)}`:' · not done yet'}</p><span class="ex-names">${exs.map(e=>{const p=planOf(r,e.id); return `${esc(e.name)} <b class="tgt">${p.sets}×${p.reps}</b>`;}).join(' · ')}</span></div>
     <div class="routine-actions"><button class="btn btn-primary" data-action="start" data-id="${r.id}">Start ${esc(r.name)}</button><button class="btn btn-quiet" data-action="edit-routine" data-id="${r.id}">Edit</button></div></article>`;
 }
 
@@ -591,7 +695,8 @@ function entryCard(s,en){
   let n=0;
   const rows=en.sets.map((x,i)=>{
     if(!x.wu) n++;
-    const ph=!x.wu&&lw.length?lw[Math.min(n-1,lw.length-1)]:null;
+    const t=en.target, prev=!x.wu&&lw.length?lw[Math.min(n-1,lw.length-1)]:null;
+    const ph=x.wu||(!prev&&!t)?null:{w:prev?prev.w:t.w||0,r:t?t.reps:prev.r};
     return `<div class="set${x.done?' is-done':''}${x.wu?' is-wu':''}" data-i="${i}">
       <button class="set-no" data-action="toggle-wu" aria-label="${x.wu?'Warm-up set':'Set '+n}. Tap to switch warm-up">${x.wu?'W':n}</button>
       <input class="num" id="w-${en.id}-${i}" inputmode="decimal" data-bind="w" value="${x.w==null?'':fmtW(x.w)}" placeholder="${ph?fmtW(ph.w||0):'–'}" aria-label="Weight in ${unit()}">
@@ -603,7 +708,7 @@ function entryCard(s,en){
   return `<article class="card ex" data-eid="${en.id}">
     <div class="ex-head"><div class="ex-id"><div class="ex-fig">${bodySvg({on:musclesOf(ex).p,sec:musclesOf(ex).s})}</div><div><h3>${esc(exName(en))}</h3><p class="meta">${musclesOf(ex).p.map(k=>MUSCLE_LABEL[k]).join(', ')||esc(ex?.muscle||'')}</p></div></div><button class="icon-btn" data-action="ex-menu" aria-label="Exercise options">${ic('more')}</button></div>
     <label class="machine">${ic('pin')}<input id="m-${en.id}" data-bind="machine" value="${esc(en.machine)}" placeholder="Machine, station or seat setting" aria-label="Machine used"></label>
-    <p class="last">${last?`Last time, ${fmtShort(last.s.start)}: <b>${lw.map(fmtSet).join(', ')}</b>`:'First time logging this exercise.'}</p>
+    <p class="last">${en.target?`<span class="chip accent">Target ${en.target.sets} × ${en.target.reps}${en.target.w?` @ ${fmtW(en.target.w)} ${unit()}`:''}</span> `:''}${last?`Last time, ${fmtShort(last.s.start)}: <b>${lw.map(fmtSet).join(', ')}</b>`:'First time logging this exercise.'}</p>
     <div class="set-head"><span>Set</span><span>${unit()}</span><span>Reps</span><span></span><span></span></div>
     ${rows}
     <button class="btn add-set" data-action="add-set">${ic('plus')} Add set</button>
@@ -864,14 +969,18 @@ function openExEditor(ex,{name='',onSave}={}){
     <div class="sheet-foot">${ex?`<button class="btn btn-danger-quiet" data-action="ex-delete">${st.confirm?'Tap again to delete':'Delete'}</button>`:''}<button class="btn btn-primary" data-action="ex-save">Save</button></div>`});
 }
 function openRoutineEditor(r){
-  openSheet({r,st:{name:r?.name||'',ex:r?r.ex.filter(id=>exById(id)&&!exById(id).archived):[]},render:st=>{
-    const items=st.ex.map((id,i)=>{const e=exById(id); return `<li class="rt-item"><span><b>${esc(e?.name||'Exercise')}</b><small>${esc(e?.machine||'')}</small></span><span class="rt-btns">
+  const ids=r?r.ex.filter(id=>exById(id)&&!exById(id).archived):[];
+  const plan={}; ids.forEach(id=>plan[id]=planOf(r,id));
+  openSheet({r,st:{name:r?.name||'',ex:ids,plan},render:st=>{
+    const step=(i,k,v,label)=>`<span class="stepper"><button data-action="rt-step" data-n="${i}" data-k="${k}" data-d="-1" aria-label="Fewer ${label}">−</button><b>${v}</b><button data-action="rt-step" data-n="${i}" data-k="${k}" data-d="1" aria-label="More ${label}">+</button><small>${label}</small></span>`;
+    const items=st.ex.map((id,i)=>{const e=exById(id), p=st.plan[id]=st.plan[id]||planOf(null,id); return `<li class="rt-item"><div class="rt-top"><span class="pick-main"><span class="thumb">${bodySvg({on:musclesOf(e).p,sec:musclesOf(e).s})}</span><span><b>${esc(e?.name||'Exercise')}</b><small>${esc(e?.machine||'')}</small></span></span><span class="rt-btns">
       <button class="icon-btn sm" data-action="rt-move" data-n="${i}" data-d="-1" ${i?'':'disabled'} aria-label="Move up">${ic('up')}</button>
       <button class="icon-btn sm" data-action="rt-move" data-n="${i}" data-d="1" ${i<st.ex.length-1?'':'disabled'} aria-label="Move down">${ic('down')}</button>
-      <button class="icon-btn sm" data-action="rt-remove" data-n="${i}" aria-label="Remove">${ic('x')}</button></span></li>`;}).join('');
+      <button class="icon-btn sm" data-action="rt-remove" data-n="${i}" aria-label="Remove">${ic('x')}</button></span></div>
+      <div class="rt-plan">${step(i,'sets',p.sets,'sets')}${step(i,'reps',p.reps,'reps')}<label class="rt-w"><input id="rtw-${id}" inputmode="decimal" data-bind="rtw" data-n="${i}" value="${p.w?fmtW(p.w):''}" placeholder="–" aria-label="Starting weight"><small>${unit()}</small></label></div></li>`;}).join('');
     return sheetHead(r?'Edit routine':'New routine')+`<div class="form">
       <label class="field"><span>Name</span><input id="rt-name" data-field="name" value="${esc(st.name)}" placeholder="e.g. Upper A, Chest day"></label>
-      <div><p class="group">Exercises, in order</p><ol class="rt-list">${items||'<li class="muted" style="padding:8px 0">No exercises yet.</li>'}</ol></div>
+      <div><p class="group">Exercises, sets × reps</p><p class="hint">Weight is optional. When you start the routine, last time's weight is suggested first.</p><ol class="rt-list">${items||'<li class="muted" style="padding:8px 0">No exercises yet.</li>'}</ol></div>
       <button class="btn btn-ghost wide" data-action="rt-add">${ic('plus')} Add exercises</button></div>
       <div class="sheet-foot">${r?`<button class="btn btn-danger-quiet" data-action="rt-delete">${st.confirm?'Tap again to delete':'Delete'}</button>`:''}<button class="btn btn-primary" data-action="rt-save">Save routine</button></div>`;}});
 }
@@ -981,6 +1090,7 @@ const binds={
   machine(el){entryOf(el).machine=el.value; save();},
   sname(el){editing().name=el.value; save();},
   snotes(el){editing().notes=el.value; save();},
+  rtw(el){const st=top_().st, v=parseFloat(el.value.replace(',','.')); st.plan[st.ex[+el.dataset.n]].w=isFinite(v)&&v>0?fromD(v):null;},
   pickq(el){const st=top_().st; st.q=el.value; $('#pick-list').innerHTML=pickList(st);},
 };
 function saveFinished(s,keep){
@@ -993,7 +1103,7 @@ const actions={
   start(el){
     if(getS(S.activeId)){ ui.tab='workout'; ui.editingId=null; closeAllSheets(); render(); return toast('Finish or discard the workout in progress first.'); }
     const r=S.routines.find(x=>x.id===el.dataset.id);
-    const s={id:uid(),start:Date.now(),end:null,routineId:r?.id||null,name:r?.name||'Workout',notes:'',entries:r?r.ex.filter(id=>exById(id)&&!exById(id).archived).map(newEntry):[]};
+    const s={id:uid(),start:Date.now(),end:null,routineId:r?.id||null,name:r?.name||'Workout',notes:'',entries:r?r.ex.filter(id=>exById(id)&&!exById(id).archived).map(id=>newEntry(id,planOf(r,id))):[]};
     S.sessions.push(s); S.activeId=s.id; ui.editingId=null; ui.tab='workout';
     save(); closeAllSheets(); render(); scrollTo(0,0);
     navigator.storage?.persist?.().catch(()=>{});
@@ -1027,18 +1137,29 @@ const actions={
   'ex-progress'(el){ui.progEx=el.dataset.id; ui.tab='progress'; closeAllSheets(); render(); scrollTo(0,0);},
   finish(){
     const s=editing(), all=s.entries.flatMap(e=>e.sets), ticked=all.filter(x=>x.done&&x.r>0).length, filled=all.filter(x=>x.r>0).length;
-    openSheet({render:()=>sheetHead('Finish workout?',`${clock(Date.now()-s.start)} so far`)+(
-      ticked?`<p class="sheet-p">${ticked} of ${all.length} sets ticked. Only ticked sets are saved.</p><div class="sheet-foot"><button class="btn btn-quiet" data-action="close-sheet">Keep going</button><button class="btn btn-primary" data-action="finish-go" data-mode="ticked">Save workout</button></div>`
-      :filled?`<p class="sheet-p">No sets are ticked. Save the ${filled} set${filled>1?'s':''} that have reps filled in, or go back and tick the ones you did.</p><div class="sheet-foot"><button class="btn btn-quiet" data-action="close-sheet">Go back</button><button class="btn btn-primary" data-action="finish-go" data-mode="filled">Save ${filled} set${filled>1?'s':''}</button></div>`
+    const keep=ticked?x=>x.done&&x.r>0:x=>x.r>0, next=routinePlanFrom(s,keep), r=S.routines.find(x=>x.id===s.routineId);
+    const changes=r?routineDiff(r,next):[];
+    const routineBox=st=>!next.ex.length?'':r?(changes.length?`<button class="toggle-row" data-action="fin-toggle" aria-pressed="${!!st.upd}"><span><b>Update the ${esc(r.name)} routine</b><small>You changed it during this workout:</small><span class="changes">${changes.map(c=>`<span>${esc(c)}</span>`).join('')}</span></span><span class="switch"></span></button>`:'')
+      :`<button class="toggle-row" data-action="fin-toggle" aria-pressed="${!!st.upd}"><span><b>Save as a new routine</b><small>${next.ex.length} exercise${next.ex.length>1?'s':''} with the sets and reps you did today.</small></span><span class="switch"></span></button>${st.upd?`<label class="field"><span>Routine name</span><input id="fin-name" data-field="rname" value="${esc(st.rname)}" placeholder="e.g. Upper body"></label>`:''}`;
+    openSheet({next,r,st:{upd:false,rname:s.name==='Workout'?'':s.name},render:st=>sheetHead('Finish workout?',`${clock(Date.now()-s.start)} so far`)+(
+      ticked?`<p class="sheet-p">${ticked} of ${all.length} sets ticked. Only ticked sets are saved.</p>${routineBox(st)}<div class="sheet-foot"><button class="btn btn-quiet" data-action="close-sheet">Keep going</button><button class="btn btn-primary" data-action="finish-go" data-mode="ticked">Save workout</button></div>`
+      :filled?`<p class="sheet-p">No sets are ticked. Save the ${filled} set${filled>1?'s':''} that have reps filled in, or go back and tick the ones you did.</p>${routineBox(st)}<div class="sheet-foot"><button class="btn btn-quiet" data-action="close-sheet">Go back</button><button class="btn btn-primary" data-action="finish-go" data-mode="filled">Save ${filled} set${filled>1?'s':''}</button></div>`
       :`<p class="sheet-p">Nothing is logged yet. Tick ✓ on a set after you finish it.</p><div class="sheet-foot"><button class="btn btn-danger-quiet" data-action="discard-go">Discard</button><button class="btn btn-primary" data-action="close-sheet">Keep going</button></div>`)});
   },
+  'fin-toggle'(){const st=top_().st; st.upd=!st.upd; drawSheet();},
   'finish-go'(el){
-    const s=editing(), mode=el.dataset.mode;
+    const s=editing(), mode=el.dataset.mode, sh=top_();
+    if(sh.st.upd&&!sh.r&&!sh.st.rname.trim()) return toast('Give the new routine a name.');
+    let routineMsg='';
+    if(sh.st.upd){
+      if(sh.r){ sh.r.ex=[...sh.next.ex]; for(const id of sh.next.ex) sh.r.plan[id]={...planOf(sh.r,id),...sh.next.plan[id]}; routineMsg=` · ${sh.r.name} updated`; }
+      else { const nr={id:uid(),name:sh.st.rname.trim(),ex:[...sh.next.ex],plan:sh.next.plan}; S.routines.push(nr); s.routineId=nr.id; s.name=nr.name; routineMsg=` · routine saved`; }
+    }
     saveFinished(s,x=>x.r>0&&(mode==='filled'||x.done));
     s.end=Date.now(); S.activeId=null; ui.rest=null; drawRest(); save();
     const sets=s.entries.reduce((a,e)=>a+working(e).length,0), prs=allPRs().get(s.id)?.size||0;
     closeAllSheets(); ui.tab='history'; render(); scrollTo(0,0);
-    toast(`Workout saved · ${sets} sets${prs?` · ${prs} new PR${prs>1?'s':''}`:''}`);
+    toast(`Workout saved · ${sets} sets${prs?` · ${prs} new PR${prs>1?'s':''}`:''}${routineMsg}`);
   },
   discard(){openSheet({render:()=>sheetHead('Discard workout?')+`<p class="sheet-p">Every set in this workout will be deleted.</p><div class="sheet-foot"><button class="btn btn-quiet" data-action="close-sheet">Keep it</button><button class="btn btn-danger" data-action="discard-go">Discard</button></div>`});},
   'discard-go'(){S.sessions=S.sessions.filter(x=>x.id!==S.activeId); S.activeId=null; ui.rest=null; drawRest(); save(); closeAllSheets(); render();},
@@ -1068,10 +1189,12 @@ const actions={
   'new-routine'(){openRoutineEditor(null);},
   'rt-move'(el){const ex=top_().st.ex, i=+el.dataset.n, j=i+ +el.dataset.d; [ex[i],ex[j]]=[ex[j],ex[i]]; drawSheet();},
   'rt-remove'(el){top_().st.ex.splice(+el.dataset.n,1); drawSheet();},
+  'rt-step'(el){const st=top_().st, p=st.plan[st.ex[+el.dataset.n]], k=el.dataset.k; p[k]=Math.max(1,Math.min(k==='sets'?12:100,p[k]+ +el.dataset.d)); drawSheet();},
   'rt-add'(){const st=top_().st; openPicker('Add to routine',ids=>{ids.forEach(id=>{if(!st.ex.includes(id)) st.ex.push(id);});});},
   'rt-save'(){
     const sh=top_(), st=sh.st; if(!st.name.trim()) return toast('Give the routine a name.');
-    if(sh.r) Object.assign(sh.r,{name:st.name.trim(),ex:[...st.ex]}); else S.routines.push({id:uid(),name:st.name.trim(),ex:[...st.ex]});
+    const plan={}; st.ex.forEach(id=>plan[id]={...st.plan[id]});
+    if(sh.r) Object.assign(sh.r,{name:st.name.trim(),ex:[...st.ex],plan}); else S.routines.push({id:uid(),name:st.name.trim(),ex:[...st.ex],plan});
     save(); closeSheet(); render();
   },
   'rt-delete'(){const sh=top_(); if(!sh.st.confirm){sh.st.confirm=true; return drawSheet();} S.routines=S.routines.filter(r=>r!==sh.r); save(); closeSheet(); render();},

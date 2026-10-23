@@ -1,5 +1,5 @@
 // Network first, cache fallback: updates arrive when online, the app still opens offline.
-const CACHE = 'liftbook-v2';
+const CACHE = 'liftbook-v3';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
